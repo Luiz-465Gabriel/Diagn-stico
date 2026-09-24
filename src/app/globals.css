@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 40% 94%;
+  --foreground: 213 42% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 213 42% 14%;
+  --primary: 211 80% 42%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 32% 90%;
+  --secondary-foreground: 213 42% 18%;
+  --muted: 210 28% 90%;
+  --muted-foreground: 213 14% 38%;
+  --accent: 42 96% 48%;
+  --accent-foreground: 213 42% 14%;
+  --destructive: 0 62% 40%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 212 24% 82%;
+  --input: 212 24% 78%;
+  --ring: 211 80% 42%;
+  --radius: 0.6rem;
+  --sidebar: 213 68% 16%;
+  --sidebar-foreground: 210 40% 96%;
+  --copper: 42 96% 48%;
+  --rel-primaria: #0e2a47;
+  --rel-secundaria: #f0a202;
+  --rel-fundo: #e7eef6;
+  --rel-texto: #142033;
+  --rel-destaque: #1565c0;
+}
+
+* { border-color: hsl(var(--border)); }
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-feature-settings: "ss01" on, "tnum" on;
+}
+
+::selection {
+  background: hsl(var(--primary) / 0.16);
+}
+
+.painel-fundo {
+  background: hsl(var(--background));
+}
+
+.relatorio {
+  color: var(--rel-texto);
+  background: white;
+}
+
+.relatorio h1, .relatorio h2, .relatorio h3 {
+  font-family: var(--font-sans), "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+  color: var(--rel-primaria);
+  letter-spacing: -0.01em;
+}
+
+.capa-relatorio {
+  min-height: 250mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--rel-primaria);
+  color: white;
+  padding: 22mm 16mm;
+}
+
+.capa-relatorio h1 { color: white; font-size: 36px; line-height: 1.15; margin: 0; font-weight: 650; }
+.capa-relatorio p { color: white; }
+
+.folha { padding: 6mm 2mm 8mm; }
+.quebra { break-before: page; page-break-before: always; }
+.evita-quebra { break-inside: avoid; page-break-inside: avoid; }
+
+.cartao-kpi {
+  border: 1px solid color-mix(in srgb, var(--rel-primaria) 12%, white);
+  border-left: 4px solid var(--rel-destaque);
+  padding: 12px 14px;
+  background: white;
+}
+
+.nota-estimada::after {
+  content: " ※";
+  color: var(--rel-secundaria);
+  font-weight: 700;
+}
+
+@page {
+  size: A4;
+  margin: 12mm 12mm 16mm 12mm;
+}
+
+@media print {
+  body { background: white !important; }
+  .no-print, aside, header { display: none !important; }
+  .casca-painel { display: block !important; }
+  .relatorio-folha {
+    box-shadow: none !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  .rodape-fixo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 9px;
+    color: #333;
+    padding: 0 12mm 4mm;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.rodape-fixo { display: none; }
