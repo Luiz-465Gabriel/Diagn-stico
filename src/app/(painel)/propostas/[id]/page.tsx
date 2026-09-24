@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { formatarMoeda } from "@/lib/format";
 import { emailHabilitado } from "@/lib/email";
 import { rotuloDe, STATUS_PROPOSTA } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaProposta({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase
     .from("propostas")
     .select("id, numero, status, validade_dias, total_mensal, total_avulso, pdf_path, diagnosticos(status), clientes(nome, whatsapp, id), proposta_itens(descricao, tipo, valor_total)")

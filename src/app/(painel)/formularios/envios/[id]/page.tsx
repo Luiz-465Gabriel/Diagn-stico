@@ -8,12 +8,12 @@ import { rotuloValor } from "@/lib/formulario/logica";
 import type { FormSchema, RespostasMap } from "@/lib/formulario/tipos";
 import { emailHabilitado } from "@/lib/email";
 import { rotuloDe, STATUS_ENVIO } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 import { Button } from "@/components/ui/button";
 
 export default async function PaginaEnvio({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase
     .from("form_envios")
     .select("id, status, canal, expira_em, aberto_em, respondido_em, created_at, clientes(id, nome, whatsapp), form_templates(schema), form_respostas(respostas, progresso_percentual, consentimento_lgpd_em, submitted_at)")

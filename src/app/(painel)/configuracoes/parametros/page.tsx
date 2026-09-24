@@ -1,10 +1,10 @@
 import { salvarParametro } from "@/app/(painel)/configuracoes/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaParametros() {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("parametros_diagnostico").select("chave, valor, descricao, tipo").order("chave");
   const linhas = (data ?? []) as { chave: string; valor: number; descricao: string; tipo: string }[];
   return (

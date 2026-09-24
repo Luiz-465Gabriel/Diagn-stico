@@ -29,7 +29,7 @@ const ITENS = [
   { href: "/configuracoes", label: "Configurações", icon: Settings },
 ];
 
-export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: string; children: ReactNode }) {
+export function CascaPainel({ children, identidade }: { children: ReactNode; identidade: ReactNode }) {
   const pathname = usePathname();
   const [aberto, setAberto] = useState(false);
   const ativo = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
@@ -47,7 +47,7 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
             <Link
               key={item.href}
               href={item.href}
-              prefetch={false}
+              prefetch={true}
               onClick={() => setAberto(false)}
               className={cn(
                 "flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-sm",
@@ -61,8 +61,7 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
         })}
       </nav>
       <div className="border-t border-white/10 p-4">
-        <p className="truncate text-sm font-medium text-white">{nome}</p>
-        <p className="mb-3 text-xs text-white/60">{perfil === "admin" ? "Administração" : "Colaboração"}</p>
+        {identidade}
         <form action={sair}>
           <button className="flex min-h-11 items-center gap-2 text-sm text-white/75 hover:text-white" type="submit">
             <LogOut className="h-4 w-4" />

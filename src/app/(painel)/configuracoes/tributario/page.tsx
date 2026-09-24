@@ -3,11 +3,11 @@ import { Aviso } from "@/components/painel/aviso";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaTributario({ searchParams }: { searchParams: Promise<{ erro?: string; ok?: string }> }) {
   const avisos = await searchParams;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const [{ data: tributos }, { data: municipios }] = await Promise.all([
     supabase.from("parametros_tributarios").select("id, regime, vigencia_inicio, vigencia_fim, parametros, fonte_legal").order("regime"),
     supabase.from("parametros_municipais").select("municipio_uf, aliquota_iss, observacoes").order("municipio_uf"),

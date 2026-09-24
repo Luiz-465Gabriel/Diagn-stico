@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import { parametrosDeLinhas, tributosVigentes, type LinhaTributo } from "@/lib/diagnostico/parametros";
 import type { PremissasDiagnostico } from "@/lib/diagnostico/premissas";
 import { dataHojeIso } from "@/lib/format";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaDiagnostico({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("diagnosticos").select("id, status, premissas, clientes(nome, id)").eq("id", id).maybeSingle();
   if (!data) notFound();
   const linha = data as unknown as { id: string; status: string; premissas: PremissasDiagnostico; clientes: { nome: string; id: string } | { nome: string; id: string }[] };

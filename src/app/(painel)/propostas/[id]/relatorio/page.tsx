@@ -2,11 +2,11 @@ import { notFound } from "next/navigation";
 import { BaixarPdf } from "@/components/propostas/baixar-pdf";
 import { RelatorioDocumento } from "@/components/relatorio/documento";
 import { montarDadosRelatorio } from "@/lib/propostas/carregar";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function RelatorioInterno({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const dados = await montarDadosRelatorio(supabase, id);
   if (!dados) notFound();
   return (

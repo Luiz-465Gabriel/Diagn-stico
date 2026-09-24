@@ -2,10 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarData, formatarMoeda } from "@/lib/format";
 import { rotuloDe, STATUS_PROPOSTA } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaPropostas() {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("propostas").select("id, numero, status, total_mensal, total_avulso, created_at, clientes(nome)").order("created_at", { ascending: false }).limit(100);
   const linhas = (data ?? []) as unknown as { id: string; numero: string; status: string; total_mensal: number; total_avulso: number; created_at: string; clientes: { nome: string } | { nome: string }[] | null }[];
   return (

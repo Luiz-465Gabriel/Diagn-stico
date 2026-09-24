@@ -32,6 +32,7 @@ Checklist da ordem de construção. Itens marcados somente depois de implementad
 - No celular, a proposta pública mostra a versão curta. O diagnóstico completo só carrega se a pessoa pedir.
 - Listas do painel têm botão Abrir no celular e no computador. O envio do formulário fica explicado na ficha do cliente: gerar link, WhatsApp e respostas em Envios.
 - O tema do painel e dos PDFs usa azul-marinho, azul e âmbar. A migration `20260924120700_tema.sql` atualiza um escritório que ainda esteja no cinza ou no verde antigo.
+- O menu não chama o servidor de login do Supabase a cada clique. A sessão é lida do cookie. A confirmação na rede só acontece quando o token está perto de vencer.
 
 ## 1. Base
 

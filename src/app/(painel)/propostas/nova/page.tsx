@@ -4,12 +4,12 @@ import type { ItemEntrada } from "@/lib/proposta/totais";
 import type { PremissasDiagnostico } from "@/lib/diagnostico/premissas";
 import { formatarMoeda } from "@/lib/format";
 import { valorMensalInicial } from "@/lib/proposta/honorario";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function NovaProposta({ searchParams }: { searchParams: Promise<{ diagnostico?: string }> }) {
   const { diagnostico: diagnosticoId } = await searchParams;
   if (!diagnosticoId) notFound();
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("diagnosticos").select("id, cliente_id, envio_id, status, premissas, clientes(nome)").eq("id", diagnosticoId).maybeSingle();
   if (!data) notFound();
   const diagnostico = data as unknown as {

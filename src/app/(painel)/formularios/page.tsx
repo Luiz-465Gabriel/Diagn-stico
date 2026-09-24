@@ -2,10 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarDataHora } from "@/lib/format";
 import { rotuloDe, STATUS_ENVIO } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaFormularios() {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase
     .from("form_envios")
     .select("id, status, canal, expira_em, created_at, clientes(nome), form_respostas(progresso_percentual)")

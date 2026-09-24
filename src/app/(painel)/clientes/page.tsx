@@ -5,14 +5,14 @@ import { Input } from "@/components/ui/input";
 import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarCpfCnpj, formatarTelefone } from "@/lib/cpf-cnpj";
 import { STATUS_FUNIL, rotuloDe } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaClientes({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string; status?: string; responsavel?: string }>;
 }) {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const filtros = await searchParams;
   let consulta = supabase.from("clientes").select("id, nome, tipo, cpf_cnpj, whatsapp, cidade_uf, status_funil, responsavel_id, profiles!clientes_responsavel_id_fkey(nome)").order("created_at", { ascending: false }).limit(100);
   if (filtros.q) {

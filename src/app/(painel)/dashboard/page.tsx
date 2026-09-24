@@ -1,10 +1,13 @@
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { formatarMoeda, formatarPercentual, inicioDoMesSaoPaulo } from "@/lib/format";
 import { rotuloDe, STATUS_FUNIL } from "@/lib/rotulos";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
+import { lerSessaoLocal } from "@/lib/supabase/sessao-local";
 
 export default async function Dashboard() {
-  const { supabase, profile } = await exigirSessao();
+  const [{ supabase }, jar] = await Promise.all([exigirCliente(), cookies()]);
+  const usuario = lerSessaoLocal(jar.getAll(), process.env.NEXT_PUBLIC_SUPABASE_URL);
   const [{ data: clientes }, { data: envios }, { data: propostas }] = await Promise.all([
     supabase.from("clientes").select("status_funil"),
     supabase.from("form_envios").select("status"),
@@ -32,7 +35,7 @@ export default async function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm text-muted-foreground">Olá, {profile.nome.split(" ")[0]}</p>
+        <p className="text-sm text-muted-foreground">Olá, {(usuario?.nome ?? "equipe").split(" ")[0]}</p>
         <h1 className="text-2xl font-semibold">Painel</h1>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">

@@ -3,11 +3,11 @@ import { salvarEscritorio } from "@/app/(painel)/configuracoes/actions";
 import { Aviso } from "@/components/painel/aviso";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaConfiguracoes({ searchParams }: { searchParams: Promise<{ erro?: string; ok?: string }> }) {
   const avisos = await searchParams;
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("configuracoes_escritorio").select("*").eq("id", 1).maybeSingle();
   const config = (data ?? {}) as {
     razao_social?: string;

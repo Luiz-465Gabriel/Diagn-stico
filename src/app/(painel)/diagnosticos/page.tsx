@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarDataHora } from "@/lib/format";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaDiagnosticos() {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const { data } = await supabase.from("diagnosticos").select("id, status, versao_motor, created_at, clientes(nome)").order("created_at", { ascending: false }).limit(100);
   const linhas = (data ?? []) as unknown as { id: string; status: string; versao_motor: string; created_at: string; clientes: { nome: string } | { nome: string }[] | null }[];
   return (

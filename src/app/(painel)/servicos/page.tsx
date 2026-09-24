@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PRIORIDADES_APOIO, TIPOS_APOIO } from "@/lib/formulario/template-v1";
 import { formatarMoeda } from "@/lib/format";
-import { exigirSessao } from "@/lib/sessao";
+import { exigirCliente } from "@/lib/sessao";
 
 export default async function PaginaServicos() {
-  const { supabase } = await exigirSessao();
+  const { supabase } = await exigirCliente();
   const [{ data: servicos }, { data: mapa }] = await Promise.all([
     supabase.from("servicos").select("id, nome, descricao, tipo, valor_base, ativo, ordem").order("ordem"),
     supabase.from("mapa_prioridade_servico").select("id, prioridade, servico_id, servicos(nome)").order("prioridade"),
