@@ -13,32 +13,6 @@ begin
 end;
 $$;
 
-create or replace function public.is_equipe()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.ativo = true
-  );
-$$;
-
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.ativo = true and p.perfil = 'admin'
-  );
-$$;
-
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   nome text not null,
@@ -108,6 +82,33 @@ for each row execute function public.set_updated_at();
 
 create trigger configuracoes_updated_at before update on public.configuracoes_escritorio
 for each row execute function public.set_updated_at();
+
+-- Funções em SQL são validadas na hora. As tabelas precisam existir antes.
+create or replace function public.is_equipe()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.ativo = true
+  );
+$$;
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.ativo = true and p.perfil = 'admin'
+  );
+$$;
 
 -- Perfil criado junto com o usuário do Auth. Não há cadastro público na aplicação.
 create or replace function public.handle_new_user()
