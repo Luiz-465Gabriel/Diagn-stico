@@ -103,7 +103,7 @@ function Lista({ titulo, vazio, itens }: { titulo: string; vazio: string; itens:
               <p className="font-medium">{item.titulo}</p>
               <p className="text-muted-foreground">{item.detalhe}</p>
             </div>
-            <Button asChild size="sm" className="h-10 sm:h-8"><Link href={item.href}>Abrir</Link></Button>
+            <Button asChild size="sm" className="h-10 sm:h-8"><Link href={item.href} prefetch={false}>Abrir</Link></Button>
           </div>
         ))}
       </div>

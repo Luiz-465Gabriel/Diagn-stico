@@ -118,7 +118,7 @@ O dashboard mostra o funil, a taxa de resposta, a conversão e o valor mensal da
 
 ## Velocidade e domínio
 
-`npm run dev` recompila cada tela na hora e parece lento. No domínio, use `npm run build` e `npm run start`, ou a Vercel. A proposta simples não abre o Chrome. O diagnóstico completo abre, então continua mais demorado.
+`npm run dev` usa o Turbopack. Pare o servidor antigo e suba de novo depois de cada `git pull`. A primeira abertura de uma tela ainda compila; a seguinte deve ser imediata. No domínio, use `npm run build` e `npm run start`, ou a Vercel. A proposta simples não abre o Chrome. O diagnóstico completo abre, então continua mais demorado.
 
 O painel e o formulário público se ajustam à largura do celular. Listas viram cartões com o botão Abrir. Campos de texto usam 16px para o iPhone não dar zoom ao focar.
 

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigurado } from "@/lib/rotulos";
@@ -10,7 +11,7 @@ export type Perfil = {
   ativo: boolean;
 };
 
-export async function obterSessao() {
+export const obterSessao = cache(async function obterSessao() {
   if (!supabaseConfigurado()) return null;
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
@@ -19,7 +20,7 @@ export async function obterSessao() {
   const profile = perfilResp.data as Perfil | null;
   if (!profile?.ativo) return null;
   return { supabase, user: data.user, profile };
-}
+});
 
 export async function exigirSessao() {
   if (!supabaseConfigurado()) redirect("/sem-configuracao");

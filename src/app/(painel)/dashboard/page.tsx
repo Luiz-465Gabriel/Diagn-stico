@@ -36,11 +36,11 @@ export default async function Dashboard() {
         <h1 className="text-2xl font-semibold">Painel</h1>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
-        <Link href="/clientes" className="rounded-lg border-l-4 border-primary bg-card p-4 shadow-sm">
+        <Link href="/clientes" prefetch={false} className="rounded-lg border-l-4 border-primary bg-card p-4 shadow-sm">
           <p className="font-medium">Enviar formulário</p>
           <p className="mt-1 text-sm text-muted-foreground">Abra o cliente, gere o link e mande no WhatsApp. As respostas voltam sozinhas.</p>
         </Link>
-        <Link href="/propostas" className="rounded-lg border-l-4 border-[hsl(var(--copper))] bg-card p-4 shadow-sm">
+        <Link href="/propostas" prefetch={false} className="rounded-lg border-l-4 border-[hsl(var(--copper))] bg-card p-4 shadow-sm">
           <p className="font-medium">Baixar proposta</p>
           <p className="mt-1 text-sm text-muted-foreground">Abra a proposta e use “Baixar proposta simples” para enviar ao cliente.</p>
         </Link>

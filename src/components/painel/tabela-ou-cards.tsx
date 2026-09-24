@@ -21,14 +21,14 @@ export function TabelaOuCards({
           <article key={linha.id} className="rounded-lg border bg-card p-4 shadow-sm">
             <div className="space-y-1.5 text-sm">
               {linha.valores.map((valor, indice) => (
-                <p key={indice}>
+                <div key={indice}>
                   <span className="text-muted-foreground">{cabecalhos[indice]}: </span>
                   {valor}
-                </p>
+                </div>
               ))}
             </div>
             <Button asChild className="mt-3 h-11 w-full">
-              <Link href={linha.href}>Abrir</Link>
+              <Link href={linha.href} prefetch={false}>Abrir</Link>
             </Button>
           </article>
         ))}
@@ -51,7 +51,7 @@ export function TabelaOuCards({
                 ))}
                 <td className="px-3 py-3 text-right">
                   <Button asChild>
-                    <Link href={linha.href}>Abrir</Link>
+                    <Link href={linha.href} prefetch={false}>Abrir</Link>
                   </Button>
                 </td>
               </tr>
