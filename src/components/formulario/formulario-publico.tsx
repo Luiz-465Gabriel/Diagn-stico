@@ -99,8 +99,8 @@ export function FormularioPublico({
   if (confirmacao) {
     return (
       <main className="mx-auto min-h-screen max-w-md px-4 py-10">
-        <p className="text-xs uppercase tracking-[0.2em] text-[hsl(var(--copper))]">{escritorio}</p>
-        <h1 className="mt-4 font-serif text-4xl leading-tight">Recebido.</h1>
+        <p className="text-sm text-muted-foreground">{escritorio}</p>
+        <h1 className="mt-2 text-2xl font-semibold">Recebido</h1>
         <p className="mt-4 text-base leading-relaxed">{confirmacao}</p>
       </main>
     );
@@ -108,8 +108,8 @@ export function FormularioPublico({
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-4 pb-28 pt-6">
-      <p className="text-xs uppercase tracking-[0.2em] text-[hsl(var(--copper))]">{escritorio}</p>
-      <h1 className="mt-2 font-serif text-2xl">Planejamento do seu novo espaço</h1>
+      <p className="text-sm text-muted-foreground">{escritorio}</p>
+      <h1 className="mt-1 text-xl font-semibold">Planejamento do seu novo espaço</h1>
       <p className="mt-1 text-sm text-muted-foreground">Olá, {nome.split(" ")[0]}.</p>
       <div className="mt-4">
         <Progress value={passo === 0 ? 4 : progresso} />
@@ -131,7 +131,7 @@ export function FormularioPublico({
           </div>
         ) : (
           <div className="space-y-4">
-            <h2 className="font-serif text-2xl">{secao?.titulo}</h2>
+            <h2 className="text-lg font-semibold">{secao?.titulo}</h2>
             <RenderizadorFormulario
               perguntas={perguntas}
               respostas={respostas}

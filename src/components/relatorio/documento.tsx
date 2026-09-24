@@ -51,11 +51,11 @@ export function RelatorioDocumento({ dados, publico = false }: { dados: DadosRel
 
   const cores = dados.escritorio.cores ?? {};
   const estilo = {
-    "--rel-primaria": cores.primaria || "#143F45",
-    "--rel-secundaria": cores.secundaria || "#B86B3D",
-    "--rel-fundo": cores.fundo || "#F6F3EE",
-    "--rel-texto": cores.texto || "#1C2426",
-    "--rel-destaque": cores.destaque || "#1F6A5A",
+    "--rel-primaria": cores.primaria || "#1C2430",
+    "--rel-secundaria": cores.secundaria || "#5F6B76",
+    "--rel-fundo": cores.fundo || "#F4F6F8",
+    "--rel-texto": cores.texto || "#1C2430",
+    "--rel-destaque": cores.destaque || "#2C3A4A",
   } as CSSProperties;
   const q = dados.premissas.qualitativo;
   const r = dados.resultado;
@@ -74,14 +74,14 @@ export function RelatorioDocumento({ dados, publico = false }: { dados: DadosRel
             // eslint-disable-next-line @next/next/no-img-element
             <img src={dados.escritorio.logoUrl} alt="" className="mb-8 h-12 w-auto" />
           ) : (
-            <p className="text-sm uppercase tracking-[0.28em]">EMPMED</p>
+            <p className="text-sm font-semibold">EMPMED</p>
           )}
-          <p className="mt-16 text-sm uppercase tracking-[0.22em] text-white/70">{dados.escritorio.razao_social}</p>
-          <h1 className="mt-4 max-w-md">Diagnóstico e Proposta de Serviços</h1>
+          <p className="mt-10 text-sm text-muted-foreground">{dados.escritorio.razao_social}</p>
+          <h1 className="mt-3 max-w-md">Diagnóstico e proposta de serviços</h1>
         </div>
         <div>
-          <p className="font-serif text-3xl text-white">{dados.cliente}</p>
-          <p className="mt-2">Proposta {dados.numero} · {formatarData(dados.emitidaEm)}</p>
+          <p className="text-2xl font-semibold">{dados.cliente}</p>
+          <p className="mt-2 text-sm">Proposta {dados.numero} · {formatarData(dados.emitidaEm)}</p>
         </div>
       </section>
 
@@ -221,6 +221,11 @@ export function RelatorioDocumento({ dados, publico = false }: { dados: DadosRel
           </tbody>
         </table>
         <p className="mt-3 text-sm">Total mensal {formatarMoeda(dados.totalMensal)} · Total avulso {formatarMoeda(dados.totalAvulso)}</p>
+        {dados.premissas.honorario_contabil.origem === "cliente" && (
+          <p className="mt-2 text-sm">
+            A mensalidade parte do valor que o cliente informou pagar hoje à contabilidade: {formatarMoeda(dados.premissas.honorario_contabil.valor)}.
+          </p>
+        )}
         <h3 className="mt-6 text-lg">Escopo incluso</h3>
         <pre className="mt-2 whitespace-pre-wrap font-sans text-sm">{dados.escopoIncluso}</pre>
         <h3 className="mt-4 text-lg">Escopo não incluso</h3>

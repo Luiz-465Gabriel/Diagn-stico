@@ -57,6 +57,7 @@ As migrations estão em `supabase/migrations`, nesta ordem:
 4. `20260924120300_propostas.sql` — serviços, propostas e numeração `AAAA/0001`
 5. `20260924120400_template_formulario.sql` — template “Planejamento do Seu Novo Espaço”, versão 1
 6. `20260924120500_demo.sql` — cliente fictício Helena Vasconcelos
+7. `20260924120600_honorario_demo.sql` — se a demonstração antiga já foi aplicada, ajusta a mensalidade para os R$ 200 informados pela cliente
 
 No SQL Editor do Supabase, execute cada arquivo na ordem. Com a CLI:
 

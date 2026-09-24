@@ -3,32 +3,32 @@
 @tailwind utilities;
 
 :root {
-  --background: 40 32% 95%;
-  --foreground: 192 22% 12%;
-  --card: 40 40% 99%;
-  --card-foreground: 192 22% 12%;
-  --primary: 187 52% 16%;
-  --primary-foreground: 40 33% 96%;
-  --secondary: 36 24% 90%;
-  --secondary-foreground: 187 40% 16%;
-  --muted: 36 20% 91%;
-  --muted-foreground: 192 8% 36%;
-  --accent: 164 32% 26%;
-  --accent-foreground: 40 33% 96%;
-  --destructive: 2 58% 38%;
+  --background: 220 16% 96%;
+  --foreground: 220 16% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 16% 14%;
+  --primary: 220 14% 18%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 12% 92%;
+  --secondary-foreground: 220 14% 18%;
+  --muted: 220 12% 93%;
+  --muted-foreground: 220 8% 38%;
+  --accent: 220 12% 90%;
+  --accent-foreground: 220 14% 16%;
+  --destructive: 0 62% 40%;
   --destructive-foreground: 0 0% 98%;
-  --border: 32 16% 82%;
-  --input: 32 16% 80%;
-  --ring: 187 52% 16%;
-  --radius: 0.85rem;
-  --sidebar: 190 46% 11%;
-  --sidebar-foreground: 40 28% 92%;
-  --copper: 22 48% 47%;
-  --rel-primaria: #143f45;
-  --rel-secundaria: #b86b3d;
-  --rel-fundo: #f6f3ee;
-  --rel-texto: #1c2426;
-  --rel-destaque: #1f6a5a;
+  --border: 220 10% 86%;
+  --input: 220 10% 82%;
+  --ring: 220 14% 18%;
+  --radius: 0.375rem;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 220 16% 16%;
+  --copper: 220 14% 18%;
+  --rel-primaria: #1c2430;
+  --rel-secundaria: #5f6b76;
+  --rel-fundo: #f4f6f8;
+  --rel-texto: #1c2430;
+  --rel-destaque: #2c3a4a;
 }
 
 * { border-color: hsl(var(--border)); }
@@ -44,9 +44,7 @@ body {
 }
 
 .painel-fundo {
-  background-image:
-    radial-gradient(circle at 0 0, hsl(22 48% 47% / 0.08), transparent 28rem),
-    linear-gradient(180deg, hsl(40 32% 95%), hsl(40 24% 93%));
+  background: hsl(var(--background));
 }
 
 .relatorio {
@@ -55,8 +53,10 @@ body {
 }
 
 .relatorio h1, .relatorio h2, .relatorio h3 {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-sans), "IBM Plex Sans", sans-serif;
+  font-weight: 600;
   color: var(--rel-primaria);
+  letter-spacing: -0.01em;
 }
 
 .capa-relatorio {
@@ -64,25 +64,23 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background:
-    linear-gradient(165deg, var(--rel-primaria) 0 42%, transparent 42.2%),
-    var(--rel-fundo);
-  color: white;
-  padding: 18mm 16mm;
+  background: white;
+  color: var(--rel-texto);
+  padding: 18mm 8mm;
+  border-top: 8px solid var(--rel-primaria);
 }
 
-.capa-relatorio h1 { color: white; font-size: 40px; line-height: 1.05; margin: 0; }
-.capa-relatorio p { color: rgba(255,255,255,0.86); }
+.capa-relatorio h1 { color: var(--rel-primaria); font-size: 32px; line-height: 1.2; margin: 0; font-weight: 600; }
+.capa-relatorio p { color: var(--rel-texto); }
 
 .folha { padding: 6mm 2mm 8mm; }
 .quebra { break-before: page; page-break-before: always; }
 .evita-quebra { break-inside: avoid; page-break-inside: avoid; }
 
 .cartao-kpi {
-  border: 1px solid color-mix(in srgb, var(--rel-primaria) 18%, white);
-  border-top: 3px solid var(--rel-secundaria);
+  border: 1px solid color-mix(in srgb, var(--rel-primaria) 16%, white);
   padding: 12px 14px;
-  background: white;
+  background: var(--rel-fundo);
 }
 
 .nota-estimada::after {
@@ -98,7 +96,8 @@ body {
 
 @media print {
   body { background: white !important; }
-  .no-print { display: none !important; }
+  .no-print, aside, header { display: none !important; }
+  .casca-painel { display: block !important; }
   .relatorio-folha {
     box-shadow: none !important;
     margin: 0 !important;

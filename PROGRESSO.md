@@ -27,6 +27,8 @@ Checklist da ordem de construção. Itens marcados somente depois de implementad
 - Desconto do item é valor em reais, limitado ao bruto da linha.
 - Premissas de parâmetro do escritório (semanas no mês, ISS de tabela) não entram no percentual de estimativas. “Não sei” numérico usa o padrão e fica como estimado até o contador confirmar.
 - A atividade tributária, o município, o ISS e o regime adotado precisam de confirmação para marcar o diagnóstico como revisado.
+- A mensalidade de uma proposta nova começa no honorário que o cliente informou no formulário. O preço de tabela do catálogo não substitui esse valor. Serviços avulsos continuam na tabela.
+- O botão da proposta é “Baixar PDF”. O arquivo é gerado no Chrome local quando ele está instalado.
 
 ## 1. Base
 

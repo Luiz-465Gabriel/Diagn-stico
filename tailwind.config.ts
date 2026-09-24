@@ -48,8 +48,8 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "sans-serif"],
-        serif: ["var(--font-serif)", "serif"],
+        sans: ["var(--font-sans)", "IBM Plex Sans", "sans-serif"],
+        serif: ["var(--font-sans)", "IBM Plex Sans", "sans-serif"],
       },
     },
   },

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BaixarPdf } from "@/components/propostas/baixar-pdf";
 import { EnviarProposta } from "@/components/propostas/enviar-proposta";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -35,10 +36,13 @@ export default async function PaginaProposta({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href={`/clientes/${cliente?.id}`} className="text-sm text-muted-foreground hover:underline">{cliente?.nome}</Link>
-        <h1 className="font-serif text-3xl">Proposta {proposta.numero}</h1>
-        <Badge className="mt-2">{rotuloDe(STATUS_PROPOSTA, proposta.status)}</Badge>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <Link href={`/clientes/${cliente?.id}`} className="text-sm text-muted-foreground hover:underline">{cliente?.nome}</Link>
+          <h1 className="text-2xl font-semibold">Proposta {proposta.numero}</h1>
+          <Badge className="mt-2">{rotuloDe(STATUS_PROPOSTA, proposta.status)}</Badge>
+        </div>
+        <BaixarPdf propostaId={id} numero={proposta.numero} bloqueada={bloqueada} />
       </div>
       <ul className="divide-y rounded-xl border bg-card">
         {(proposta.proposta_itens ?? []).map((item) => (
@@ -49,12 +53,9 @@ export default async function PaginaProposta({ params }: { params: Promise<{ id:
         ))}
       </ul>
       <p className="text-sm">Mensal {formatarMoeda(Number(proposta.total_mensal))} · Avulso {formatarMoeda(Number(proposta.total_avulso))}</p>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         <Button asChild variant="outline"><Link href={`/propostas/${id}/relatorio`}>Ver relatório</Link></Button>
-        <form action={`/api/propostas/${id}/pdf`} method="post">
-          <Button type="submit" disabled={bloqueada}>Gerar PDF</Button>
-        </form>
-        {proposta.pdf_path && <p className="self-center text-xs text-muted-foreground">PDF salvo no Storage.</p>}
+        {proposta.pdf_path && <p className="text-xs text-muted-foreground">Último PDF também ficou salvo no escritório.</p>}
       </div>
       <div className="rounded-xl border bg-card p-5">
         <EnviarProposta

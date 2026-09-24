@@ -25,11 +25,13 @@ export function PropostaForm({
   diagnosticoId,
   envioId,
   iniciais,
+  avisoPreco,
 }: {
   clienteId: string;
   diagnosticoId: string;
   envioId: string | null;
   iniciais: ItemEntrada[];
+  avisoPreco?: string | null;
 }) {
   const [itens, setItens] = useState<ItemEntrada[]>(iniciais.length ? iniciais : [{ descricao: "", quantidade: 1, valor_unitario: 0, desconto: 0, tipo: "avulso" }]);
   const [erro, setErro] = useState<string | null>(null);
@@ -68,6 +70,7 @@ export function PropostaForm({
         if (resposta?.erro) setErro(resposta.erro);
       })}
     >
+      {avisoPreco && <p className="rounded-md border bg-card px-3 py-2 text-sm">{avisoPreco}</p>}
       {itens.map((item, indice) => (
         <div key={indice} className="grid gap-2 rounded-xl border bg-card p-3 md:grid-cols-6">
           <Input className="md:col-span-2" placeholder="Descrição" value={item.descricao} onChange={(e) => atualizar(indice, { descricao: e.target.value })} />

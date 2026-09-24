@@ -22,8 +22,9 @@ export async function POST(_request: Request, contexto: { params: Promise<{ id: 
     return NextResponse.json({ erro: "Defina PDF_SIGNING_SECRET para assinar a página de impressão." }, { status: 500 });
   }
 
-  const navegador = await abrirNavegador();
+  let navegador: Awaited<ReturnType<typeof abrirNavegador>> | null = null;
   try {
+    navegador = await abrirNavegador();
     const pagina = await navegador.newPage();
     await pagina.goto(urlImpressao(id), { waitUntil: "networkidle0", timeout: 45000 });
     await pagina.waitForFunction("window.__RELATORIO_PRONTO__ === true", { timeout: 20000 });
@@ -45,10 +46,15 @@ export async function POST(_request: Request, contexto: { params: Promise<{ id: 
     return new NextResponse(Buffer.from(pdf), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `inline; filename="proposta-${proposta.numero.replace("/", "-")}.pdf"`,
+        "Content-Disposition": `attachment; filename="Proposta-${proposta.numero.replace("/", "-")}.pdf"`,
       },
     });
+  } catch {
+    return NextResponse.json(
+      { erro: "Não foi possível gerar o PDF. Instale o Google Chrome ou defina CHROME_PATH no .env.local e reinicie o servidor." },
+      { status: 500 },
+    );
   } finally {
-    await navegador.close();
+    await navegador?.close();
   }
 }

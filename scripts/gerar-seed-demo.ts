@@ -6,6 +6,7 @@ import { parametrosDeLinhas, tributosVigentes, type LinhaTributo } from "@/lib/d
 import { montarEntrada, resolverPremissas, type PremissasDiagnostico } from "@/lib/diagnostico/premissas";
 import { NOME_TEMPLATE, TEMPLATE_PLANEJAMENTO_V1, VERSAO_TEMPLATE } from "@/lib/formulario/template-v1";
 import type { RespostasMap } from "@/lib/formulario/tipos";
+import { valorMensalInicial } from "@/lib/proposta/honorario";
 import { totalizarItens } from "@/lib/proposta/totais";
 import { CONDICOES_PAGAMENTO_PADRAO, ESCOPO_INCLUSO_PADRAO, ESCOPO_NAO_INCLUSO_PADRAO, VERSAO_MOTOR } from "@/lib/rotulos";
 
@@ -180,8 +181,8 @@ const respostas: RespostasMap = {
   q12_retirada_mensal: { valor: 7000 },
   q12_reserva: { valor: 8000 },
   q12_reserva_obs: { valor: "Reserva na poupança, fora do valor da reforma." },
-  q13_contabilidade_atual: { valor: "Não tenho contador. Faço o carnê-leão quando lembro." },
-  q13_honorario_atual: { valor: null, nao_sabe: true },
+  q13_contabilidade_atual: { valor: "Tenho contador. Pago R$ 200 por mês." },
+  q13_honorario_atual: { valor: 200 },
   q14_momento_recebimento: { valor: ["Depois do atendimento"] },
   q14_emissao_notas: { valor: "Em alguns" },
   q14_servicos_sem_nota: { valor: "As mensalidades de pilates em grupo ficam sem nota." },
@@ -270,7 +271,7 @@ const itens = totalizarItens([
     servico_id: "a1000000-0000-4000-8000-000000000009",
     descricao: "Contabilidade e acompanhamento financeiro",
     quantidade: 1,
-    valor_unitario: 1400,
+    valor_unitario: valorMensalInicial(1400, premissas.honorario_contabil).valor,
     desconto: 0,
     tipo: "mensal",
     prioridade_origem: "Acompanhamento mensal contábil e financeiro",
@@ -408,8 +409,42 @@ where not exists (
 );
 `;
 
+const ajusteSql = `-- Quem já aplicou a demonstração antiga: a mensalidade passa a ser os R$ 200 informados pela cliente.
+update public.form_respostas
+set respostas = ${sqlJson(respostas)}
+where id = '${ID.respostas}';
+
+update public.diagnosticos
+set premissas = ${sqlJson(premissas)},
+    resultados = ${sqlJson(resultados)},
+    alertas = ${sqlJson(resultado.alertas)}
+where id = '${ID.diagnostico}';
+
+update public.propostas
+set total_mensal = ${itens.total_mensal},
+    total_avulso = ${itens.total_avulso}
+where id = '${ID.proposta}';
+
+update public.proposta_itens
+set valor_unitario = ${itens.itens[3]?.valor_unitario ?? 200},
+    valor_total = ${itens.itens[3]?.valor_total ?? 200}
+where id = '66666666-6666-4666-8666-666666666664';
+
+update public.configuracoes_escritorio
+set cores_tema = jsonb_build_object(
+  'primaria', '#1C2430',
+  'secundaria', '#5F6B76',
+  'fundo', '#F4F6F8',
+  'texto', '#1C2430',
+  'destaque', '#2C3A4A'
+)
+where id = 1
+  and coalesce(cores_tema ->> 'primaria', '') in ('#143F45', '#143f45');
+`;
+
 writeFileSync("supabase/migrations/20260924120400_template_formulario.sql", templateSql);
 writeFileSync("supabase/migrations/20260924120500_demo.sql", demoSql);
+writeFileSync("supabase/migrations/20260924120600_honorario_demo.sql", ajusteSql);
 console.log("template e demo gravados");
 console.log("form", hash(TOKEN_FORMULARIO));
 console.log("proposta", hash(TOKEN_PROPOSTA));

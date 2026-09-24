@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Fraunces, Outfit } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const sans = Outfit({ subsets: ["latin"], variable: "--font-sans" });
-const serif = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
+const sans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "EMPMED Propostas",
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={`${sans.variable} ${serif.variable} font-sans antialiased`}>
+      <body className={`${sans.variable} font-sans antialiased`}>
         {children}
         <Toaster richColors position="top-right" />
       </body>

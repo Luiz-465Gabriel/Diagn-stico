@@ -58,7 +58,7 @@ export function PainelLink({
             {telefone ? (
               <Button
                 type="button"
-                variant="copper"
+                variant="default"
                 onClick={() => {
                   if (id && registrarWhatsapp) void registrarWhatsapp(id);
                   window.open(linkWhatsapp(telefone, mensagem), "_blank", "noopener,noreferrer");

@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { assinarImpressao } from "@/lib/tokens";
 import { urlPublica } from "@/lib/rotulos";
 
@@ -16,9 +17,10 @@ export async function abrirNavegador() {
   if (process.env.BROWSERLESS_WS_ENDPOINT) {
     return puppeteer.default.connect({ browserWSEndpoint: process.env.BROWSERLESS_WS_ENDPOINT });
   }
-  if (process.env.CHROME_PATH) {
+  const chromeLocal = caminhoDoChrome();
+  if (chromeLocal) {
     return puppeteer.default.launch({
-      executablePath: process.env.CHROME_PATH,
+      executablePath: chromeLocal,
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
@@ -31,4 +33,16 @@ export async function abrirNavegador() {
     headless: true,
     defaultViewport: chromium.defaultViewport,
   });
+}
+
+function caminhoDoChrome() {
+  const candidatos = [
+    process.env.CHROME_PATH,
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  ].filter((caminho): caminho is string => Boolean(caminho));
+  return candidatos.find((caminho) => existsSync(caminho));
 }

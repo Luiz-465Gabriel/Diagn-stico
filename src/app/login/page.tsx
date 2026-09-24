@@ -30,20 +30,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-screen lg:grid-cols-2">
-      <section className="hidden flex-col justify-between bg-[hsl(var(--sidebar))] p-12 text-[hsl(var(--sidebar-foreground))] lg:flex">
-        <div>
-          <p className="text-xs uppercase tracking-[0.28em] text-[hsl(var(--copper))]">Mogi Guaçu · SP</p>
-          <h1 className="mt-6 max-w-md font-serif text-5xl leading-tight">Contabilidade para quem cuida de gente.</h1>
-        </div>
-        <p className="max-w-sm text-sm text-white/70">
-          EMPMED Assessoria Contábil. Diagnóstico financeiro e proposta de serviços para médicos, clínicas e profissionais da saúde.
-        </p>
-      </section>
-      <section className="flex items-center justify-center px-6 py-16">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-5">
+    <main className="flex min-h-screen items-center justify-center bg-background px-6 py-16">
+      <section className="w-full max-w-sm">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 rounded-md border bg-card p-6">
           <div>
-            <p className="font-serif text-3xl">Entrar</p>
+            <p className="text-sm text-muted-foreground">EMPMED Assessoria Contábil</p>
+            <h1 className="mt-1 text-2xl font-semibold">Entrar</h1>
             <p className="mt-1 text-sm text-muted-foreground">Acesso da equipe. Não há cadastro público.</p>
           </div>
           <div className="space-y-2">
