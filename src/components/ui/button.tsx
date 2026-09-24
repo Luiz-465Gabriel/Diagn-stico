@@ -16,7 +16,7 @@ const buttonVariants = cva(
         copper: "bg-[hsl(var(--copper))] text-white hover:opacity-90",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "h-11 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-12 px-6",
         icon: "h-10 w-10",

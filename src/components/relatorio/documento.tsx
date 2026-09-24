@@ -45,17 +45,17 @@ export function RelatorioDocumento({ dados, publico = false }: { dados: DadosRel
   useEffect(() => {
     const timer = setTimeout(() => {
       window.__RELATORIO_PRONTO__ = true;
-    }, 500);
+    }, 120);
     return () => clearTimeout(timer);
   }, []);
 
   const cores = dados.escritorio.cores ?? {};
   const estilo = {
-    "--rel-primaria": cores.primaria || "#1C2430",
-    "--rel-secundaria": cores.secundaria || "#5F6B76",
-    "--rel-fundo": cores.fundo || "#F4F6F8",
-    "--rel-texto": cores.texto || "#1C2430",
-    "--rel-destaque": cores.destaque || "#2C3A4A",
+    "--rel-primaria": cores.primaria || "#0E2A47",
+    "--rel-secundaria": cores.secundaria || "#F0A202",
+    "--rel-fundo": cores.fundo || "#E7EEF6",
+    "--rel-texto": cores.texto || "#142033",
+    "--rel-destaque": cores.destaque || "#1565C0",
   } as CSSProperties;
   const q = dados.premissas.qualitativo;
   const r = dados.resultado;
@@ -74,14 +74,15 @@ export function RelatorioDocumento({ dados, publico = false }: { dados: DadosRel
             // eslint-disable-next-line @next/next/no-img-element
             <img src={dados.escritorio.logoUrl} alt="" className="mb-8 h-12 w-auto" />
           ) : (
-            <p className="text-sm font-semibold">EMPMED</p>
+            <p className="text-sm font-semibold tracking-wide">EMPMED</p>
           )}
-          <p className="mt-10 text-sm text-muted-foreground">{dados.escritorio.razao_social}</p>
+          <div className="mt-8 h-1 w-16 bg-[var(--rel-secundaria)]" />
+          <p className="mt-6 text-sm text-white/75">{dados.escritorio.razao_social}</p>
           <h1 className="mt-3 max-w-md">Diagnóstico e proposta de serviços</h1>
         </div>
         <div>
-          <p className="text-2xl font-semibold">{dados.cliente}</p>
-          <p className="mt-2 text-sm">Proposta {dados.numero} · {formatarData(dados.emitidaEm)}</p>
+          <p className="text-3xl font-semibold">{dados.cliente}</p>
+          <p className="mt-2 text-sm text-white/80">Proposta {dados.numero} · {formatarData(dados.emitidaEm)}</p>
         </div>
       </section>
 

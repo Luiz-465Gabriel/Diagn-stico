@@ -146,7 +146,7 @@ function Campo({
 function Escolha({ pergunta, valor, onChange, lista }: { pergunta: Pergunta; valor: string; onChange: (valor: string) => void; lista: boolean }) {
   if (lista) {
     return (
-      <select className="h-11 w-full rounded-md border bg-card px-3 text-sm" value={valor} onChange={(e) => onChange(e.target.value)}>
+      <select className="h-11 w-full rounded-md border bg-card px-3 text-base" value={valor} onChange={(e) => onChange(e.target.value)}>
         <option value="">Selecione</option>
         {(pergunta.opcoes ?? []).map((opcao) => (
           <option key={opcao} value={opcao}>{opcao}</option>

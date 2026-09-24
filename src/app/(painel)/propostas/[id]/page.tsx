@@ -36,7 +36,7 @@ export default async function PaginaProposta({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <Link href={`/clientes/${cliente?.id}`} className="text-sm text-muted-foreground hover:underline">{cliente?.nome}</Link>
           <h1 className="text-2xl font-semibold">Proposta {proposta.numero}</h1>
@@ -47,7 +47,7 @@ export default async function PaginaProposta({ params }: { params: Promise<{ id:
       <ul className="divide-y rounded-xl border bg-card">
         {(proposta.proposta_itens ?? []).map((item) => (
           <li key={item.descricao} className="flex justify-between px-4 py-3 text-sm">
-            <span>{item.descricao} · {item.tipo}</span>
+            <span>{item.descricao} · {item.tipo === "mensal" ? "por mês" : "uma vez"}</span>
             <span>{formatarMoeda(Number(item.valor_total))}</span>
           </li>
         ))}

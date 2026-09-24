@@ -56,11 +56,11 @@ create table public.configuracoes_escritorio (
   email text,
   logo_path text,
   cores_tema jsonb not null default jsonb_build_object(
-    'primaria', '#1C2430',
-    'secundaria', '#5F6B76',
-    'fundo', '#F4F6F8',
-    'texto', '#1C2430',
-    'destaque', '#2C3A4A'
+    'primaria', '#0E2A47',
+    'secundaria', '#F0A202',
+    'fundo', '#E7EEF6',
+    'texto', '#142033',
+    'destaque', '#1565C0'
   ),
   updated_at timestamptz not null default now()
 );

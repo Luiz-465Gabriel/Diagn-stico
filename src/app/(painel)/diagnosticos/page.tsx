@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarDataHora } from "@/lib/format";
 import { exigirSessao } from "@/lib/sessao";
 
@@ -11,35 +10,26 @@ export default async function PaginaDiagnosticos() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-3xl">Diagnósticos</h1>
-        <p className="text-sm text-muted-foreground">O diagnóstico nasce das respostas recebidas, na ficha do envio.</p>
+        <h1 className="text-2xl font-semibold">Diagnósticos</h1>
+        <p className="text-sm text-muted-foreground">O diagnóstico nasce das respostas recebidas. Abra para revisar as premissas.</p>
       </div>
-      <div className="rounded-xl border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Cliente</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Motor</TableHead>
-              <TableHead>Criado</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {linhas.length === 0 && <TableRow><TableCell colSpan={4} className="py-10 text-center text-muted-foreground">Nenhum diagnóstico.</TableCell></TableRow>}
-            {linhas.map((linha) => {
-              const cliente = Array.isArray(linha.clientes) ? linha.clientes[0] : linha.clientes;
-              return (
-                <TableRow key={linha.id}>
-                  <TableCell><Link className="font-medium hover:underline" href={`/diagnosticos/${linha.id}`}>{cliente?.nome ?? "Cliente"}</Link></TableCell>
-                  <TableCell><Badge variant={linha.status === "revisado" ? "ok" : "alerta"}>{linha.status === "revisado" ? "Revisado" : "Rascunho"}</Badge></TableCell>
-                  <TableCell>{linha.versao_motor}</TableCell>
-                  <TableCell>{formatarDataHora(linha.created_at)}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
+      <TabelaOuCards
+        vazio="Nenhum diagnóstico."
+        cabecalhos={["Cliente", "Status", "Motor", "Criado"]}
+        linhas={linhas.map((linha) => {
+          const cliente = Array.isArray(linha.clientes) ? linha.clientes[0] : linha.clientes;
+          return {
+            id: linha.id,
+            href: `/diagnosticos/${linha.id}`,
+            valores: [
+              cliente?.nome ?? "Cliente",
+              <Badge key="status" variant={linha.status === "revisado" ? "ok" : "alerta"}>{linha.status === "revisado" ? "Revisado" : "Rascunho"}</Badge>,
+              linha.versao_motor,
+              formatarDataHora(linha.created_at),
+            ],
+          };
+        })}
+      />
     </div>
   );
 }

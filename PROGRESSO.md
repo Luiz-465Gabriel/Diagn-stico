@@ -28,7 +28,10 @@ Checklist da ordem de construção. Itens marcados somente depois de implementad
 - Premissas de parâmetro do escritório (semanas no mês, ISS de tabela) não entram no percentual de estimativas. “Não sei” numérico usa o padrão e fica como estimado até o contador confirmar.
 - A atividade tributária, o município, o ISS e o regime adotado precisam de confirmação para marcar o diagnóstico como revisado.
 - A mensalidade de uma proposta nova começa no honorário que o cliente informou no formulário. O preço de tabela do catálogo não substitui esse valor. Serviços avulsos continuam na tabela.
-- O botão da proposta é “Baixar PDF”. O arquivo é gerado no Chrome local quando ele está instalado.
+- A proposta tem dois downloads. “Baixar proposta simples” sai com pdf-lib, sem Chrome, e é o arquivo para o cliente. “Baixar diagnóstico completo” abre o Chrome e inclui os gráficos.
+- No celular, a proposta pública mostra a versão curta. O diagnóstico completo só carrega se a pessoa pedir.
+- Listas do painel têm botão Abrir no celular e no computador. O envio do formulário fica explicado na ficha do cliente: gerar link, WhatsApp e respostas em Envios.
+- O tema do painel e dos PDFs usa azul-marinho, azul e âmbar. A migration `20260924120700_tema.sql` atualiza um escritório que ainda esteja no cinza ou no verde antigo.
 
 ## 1. Base
 

@@ -17,7 +17,7 @@ export function PainelCliente({
 }) {
   return (
     <PainelLink
-      rotulo="Gerar link do formulário"
+      rotulo="Gerar link e enviar"
       telefone={telefone}
       emailDisponivel={emailDisponivel}
       gerar={() => criarEnvio(clienteId)}

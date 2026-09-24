@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarData, formatarMoeda } from "@/lib/format";
 import { rotuloDe, STATUS_PROPOSTA } from "@/lib/rotulos";
 import { exigirSessao } from "@/lib/sessao";
@@ -12,39 +11,28 @@ export default async function PaginaPropostas() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-3xl">Propostas</h1>
-        <p className="text-sm text-muted-foreground">A proposta nasce de um diagnóstico revisado.</p>
+        <h1 className="text-2xl font-semibold">Propostas</h1>
+        <p className="text-sm text-muted-foreground">Abra a proposta para baixar o PDF e enviar ao cliente.</p>
       </div>
-      <div className="rounded-xl border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Número</TableHead>
-              <TableHead>Cliente</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Mensal</TableHead>
-              <TableHead>Avulso</TableHead>
-              <TableHead>Data</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {linhas.length === 0 && <TableRow><TableCell colSpan={6} className="py-10 text-center text-muted-foreground">Nenhuma proposta.</TableCell></TableRow>}
-            {linhas.map((linha) => {
-              const cliente = Array.isArray(linha.clientes) ? linha.clientes[0] : linha.clientes;
-              return (
-                <TableRow key={linha.id}>
-                  <TableCell><Link className="font-medium hover:underline" href={`/propostas/${linha.id}`}>{linha.numero}</Link></TableCell>
-                  <TableCell>{cliente?.nome}</TableCell>
-                  <TableCell><Badge>{rotuloDe(STATUS_PROPOSTA, linha.status)}</Badge></TableCell>
-                  <TableCell>{formatarMoeda(Number(linha.total_mensal))}</TableCell>
-                  <TableCell>{formatarMoeda(Number(linha.total_avulso))}</TableCell>
-                  <TableCell>{formatarData(linha.created_at)}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
+      <TabelaOuCards
+        vazio="Nenhuma proposta."
+        cabecalhos={["Número", "Cliente", "Status", "Mensal", "Avulso", "Data"]}
+        linhas={linhas.map((linha) => {
+          const cliente = Array.isArray(linha.clientes) ? linha.clientes[0] : linha.clientes;
+          return {
+            id: linha.id,
+            href: `/propostas/${linha.id}`,
+            valores: [
+              linha.numero,
+              cliente?.nome ?? "—",
+              <Badge key="status">{rotuloDe(STATUS_PROPOSTA, linha.status)}</Badge>,
+              formatarMoeda(Number(linha.total_mensal)),
+              formatarMoeda(Number(linha.total_avulso)),
+              formatarData(linha.created_at),
+            ],
+          };
+        })}
+      />
     </div>
   );
 }

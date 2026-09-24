@@ -36,9 +36,9 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
 
   const menu = (
     <div className="flex h-full flex-col">
-      <div className="border-b px-5 py-5">
-        <p className="text-base font-semibold text-foreground">EMPMED</p>
-        <p className="text-sm text-muted-foreground">Propostas</p>
+      <div className="border-b border-white/10 px-5 py-5">
+        <p className="text-base font-semibold text-white">EMPMED</p>
+        <p className="text-sm text-[hsl(var(--copper))]">Propostas</p>
       </div>
       <nav className="flex flex-1 flex-col gap-0.5 px-3 py-3">
         {ITENS.map((item) => {
@@ -49,8 +49,8 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
               href={item.href}
               onClick={() => setAberto(false)}
               className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm",
-                ativo(item.href) ? "bg-muted font-medium text-foreground" : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
+                "flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-sm",
+                ativo(item.href) ? "bg-white/15 font-medium text-white" : "text-white/75 hover:bg-white/10 hover:text-white",
               )}
             >
               <Icone className="h-4 w-4" />
@@ -59,11 +59,11 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
           );
         })}
       </nav>
-      <div className="border-t p-4">
-        <p className="truncate text-sm font-medium">{nome}</p>
-        <p className="mb-3 text-xs text-muted-foreground">{perfil === "admin" ? "Administração" : "Colaboração"}</p>
+      <div className="border-t border-white/10 p-4">
+        <p className="truncate text-sm font-medium text-white">{nome}</p>
+        <p className="mb-3 text-xs text-white/60">{perfil === "admin" ? "Administração" : "Colaboração"}</p>
         <form action={sair}>
-          <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" type="submit">
+          <button className="flex min-h-11 items-center gap-2 text-sm text-white/75 hover:text-white" type="submit">
             <LogOut className="h-4 w-4" />
             Sair
           </button>
@@ -74,11 +74,11 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
 
   return (
     <div className="casca-painel min-h-screen bg-background text-foreground lg:grid lg:grid-cols-[220px_1fr]">
-      <aside className="hidden border-r bg-card lg:block">{menu}</aside>
+      <aside className="hidden bg-sidebar text-sidebar-foreground lg:block">{menu}</aside>
       {aberto && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button className="absolute inset-0 bg-black/40" onClick={() => setAberto(false)} aria-label="Fechar menu" />
-          <aside className="relative z-10 h-full w-72 border-r bg-card">{menu}</aside>
+          <aside className="relative z-10 h-full w-72 bg-sidebar text-sidebar-foreground">{menu}</aside>
         </div>
       )}
       <div className="painel-fundo min-h-screen text-foreground">
@@ -88,7 +88,7 @@ export function CascaPainel({ nome, perfil, children }: { nome: string; perfil: 
             {aberto ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </header>
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">{children}</div>
+        <div className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6">{children}</div>
       </div>
     </div>
   );

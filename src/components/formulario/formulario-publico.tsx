@@ -107,10 +107,14 @@ export function FormularioPublico({
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col px-4 pb-28 pt-6">
-      <p className="text-sm text-muted-foreground">{escritorio}</p>
-      <h1 className="mt-1 text-xl font-semibold">Planejamento do seu novo espaço</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Olá, {nome.split(" ")[0]}.</p>
+    <main className="mx-auto flex min-h-screen max-w-md flex-col pb-28">
+      <header className="bg-sidebar px-4 py-6 text-white">
+        <p className="text-xs uppercase tracking-[0.14em] text-white/70">{escritorio}</p>
+        <h1 className="mt-2 text-2xl font-semibold leading-tight">Planejamento do seu novo espaço</h1>
+        <p className="mt-1 text-sm text-white/75">Olá, {nome.split(" ")[0]}.</p>
+      </header>
+      <div className="h-1.5 bg-gradient-to-r from-primary to-[hsl(var(--copper))]" />
+      <div className="px-4 pt-5">
       <div className="mt-4">
         <Progress value={passo === 0 ? 4 : progresso} />
         <p className="mt-1 text-xs text-muted-foreground">
@@ -151,19 +155,20 @@ export function FormularioPublico({
         {aviso && <p className="mt-4 text-sm text-destructive">{aviso}</p>}
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 border-t bg-background/95 px-4 py-3 backdrop-blur">
+      </div>
+      <div className="fixed inset-x-0 bottom-0 border-t bg-card/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-md gap-2">
           {passo > 0 && (
-            <Button type="button" variant="outline" className="flex-1" onClick={() => setPasso((atual) => atual - 1)}>
+            <Button type="button" variant="outline" className="h-11 flex-1" onClick={() => setPasso((atual) => atual - 1)}>
               Voltar
             </Button>
           )}
           {passo < schema.secoes.length ? (
-            <Button type="button" className="flex-1" onClick={continuar}>
+            <Button type="button" className="h-11 flex-1" onClick={continuar}>
               Continuar
             </Button>
           ) : (
-            <Button type="button" className="flex-1" onClick={() => void enviar()}>
+            <Button type="button" className="h-11 flex-1" onClick={() => void enviar()}>
               Enviar respostas
             </Button>
           )}

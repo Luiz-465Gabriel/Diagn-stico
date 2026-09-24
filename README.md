@@ -10,8 +10,8 @@ A interface está em português. Valores usam `R$ 1.234,56`, datas `DD/MM/AAAA` 
 2. Cadastra o cliente e gera um link do formulário (token aleatório de 32 bytes; o banco guarda só o SHA-256).
 3. O cliente preenche no celular, sem login, com aceite da LGPD e salvamento automático.
 4. A equipe vê as respostas, gera o diagnóstico e revisa as premissas.
-5. Monta a proposta. O relatório HTML vira PDF e fica no Storage.
-6. O cliente abre `/p/[token]`, aceita ou recusa.
+5. Monta a proposta. Há dois PDFs: a proposta simples, para o cliente, e o diagnóstico completo, com gráficos.
+6. O cliente abre `/p/[token]`, vê a proposta curta no celular, pode abrir o diagnóstico e aceita ou recusa.
 
 Alíquotas, ISS, honorários padrão e limiares de alerta ficam em Configurações. O código só aplica as fórmulas. Os seeds tributários estão marcados como **EXEMPLO — VALIDAR**.
 
@@ -58,6 +58,7 @@ As migrations estão em `supabase/migrations`, nesta ordem:
 5. `20260924120400_template_formulario.sql` — template “Planejamento do Seu Novo Espaço”, versão 1
 6. `20260924120500_demo.sql` — cliente fictício Helena Vasconcelos
 7. `20260924120600_honorario_demo.sql` — se a demonstração antiga já foi aplicada, ajusta a mensalidade para os R$ 200 informados pela cliente
+8. `20260924120700_tema.sql` — atualiza as cores do escritório para azul-marinho, azul e âmbar, se ainda estiverem no tema antigo
 
 No SQL Editor do Supabase, execute cada arquivo na ordem. Com a CLI:
 
@@ -110,14 +111,20 @@ O Vitest cobre o motor de diagnóstico (caso calculado à mão, com mensalidade,
 3. Em Enviar formulário, copie o link, abra no celular (ou em 375 px) e preencha. O aceite da LGPD é obrigatório. O rascunho grava sozinho.
 4. No envio respondido, use Gerar diagnóstico. Confirme os campos estimados, a atividade, o município e o regime. Marque como revisado.
 5. Em Nova proposta, ajuste itens e descontos. Os serviços iniciais vêm das prioridades do formulário e do catálogo, que é editável em Serviços.
-6. Abra o relatório e gere o PDF. O PDF só sai com diagnóstico revisado.
-7. Envie a proposta. O cliente aceita ou recusa em `/p/[token]`.
+6. Na proposta, use “Baixar proposta simples” para mandar ao cliente. “Baixar diagnóstico completo” traz os gráficos e só sai com o diagnóstico revisado.
+7. Envie a proposta. O cliente aceita ou recusa em `/p/[token]`. No celular ele vê a versão curta; o diagnóstico completo fica atrás de um botão.
 
 O dashboard mostra o funil, a taxa de resposta, a conversão e o valor mensal das propostas abertas e das aceitas no mês (fuso de São Paulo).
 
+## Velocidade e domínio
+
+`npm run dev` recompila cada tela na hora e parece lento. No domínio, use `npm run build` e `npm run start`, ou a Vercel. A proposta simples não abre o Chrome. O diagnóstico completo abre, então continua mais demorado.
+
+O painel e o formulário público se ajustam à largura do celular. Listas viram cartões com o botão Abrir. Campos de texto usam 16px para o iPhone não dar zoom ao focar.
+
 ## PDF na Vercel
 
-A geração usa `puppeteer-core`. Em produção, sem `CHROME_PATH`, o servidor sobe o `@sparticuz/chromium`. A rota espera `window.__RELATORIO_PRONTO__` antes de imprimir e grava o arquivo no bucket privado `propostas`.
+A proposta simples é gerada com `pdf-lib`, sem navegador. O diagnóstico completo usa `puppeteer-core`. Em produção, sem `CHROME_PATH`, o servidor sobe o `@sparticuz/chromium`. A rota espera `window.__RELATORIO_PRONTO__` antes de imprimir e grava o arquivo no bucket privado `propostas`.
 
 Se a função estourar o tamanho ou o tempo da Vercel, aponte `BROWSERLESS_WS_ENDPOINT` para um Chrome externo (por exemplo Browserless, `wss://...`). O mesmo código conecta nesse endpoint e não depende do binário dentro da função.
 

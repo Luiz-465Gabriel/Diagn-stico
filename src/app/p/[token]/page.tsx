@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { AceiteProposta } from "@/components/propostas/aceite";
-import { RelatorioDocumento } from "@/components/relatorio/documento";
+import { VistaPublica } from "@/components/propostas/vista-publica";
 import { montarDadosRelatorio, propostaExpirada } from "@/lib/propostas/carregar";
 import { adminConfigurado } from "@/lib/rotulos";
 import { hashesIguais, hashToken } from "@/lib/tokens";
@@ -27,10 +26,5 @@ export default async function PropostaPublica({ params }: { params: Promise<{ to
   }
   const dados = await montarDadosRelatorio(admin, proposta.id);
   if (!dados) notFound();
-  return (
-    <div className="bg-[#efeae2] py-6">
-      <RelatorioDocumento dados={dados} publico />
-      <AceiteProposta token={token} status={status} nomeAceite={proposta.aceite_nome} />
-    </div>
-  );
+  return <VistaPublica dados={dados} token={token} status={status} nomeAceite={proposta.aceite_nome} />;
 }

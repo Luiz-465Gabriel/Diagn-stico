@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TabelaOuCards } from "@/components/painel/tabela-ou-cards";
 import { formatarCpfCnpj, formatarTelefone } from "@/lib/cpf-cnpj";
 import { STATUS_FUNIL, rotuloDe } from "@/lib/rotulos";
 import { exigirSessao } from "@/lib/sessao";
@@ -40,7 +40,7 @@ export default async function PaginaClientes({
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-serif text-3xl">Clientes</h1>
+          <h1 className="text-2xl font-semibold">Clientes</h1>
           <p className="text-sm text-muted-foreground">Leads e clientes do escritório.</p>
         </div>
         <Button asChild>
@@ -63,41 +63,24 @@ export default async function PaginaClientes({
         </select>
         <Button type="submit" variant="secondary">Filtrar</Button>
       </form>
-      <div className="rounded-xl border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Documento</TableHead>
-              <TableHead>WhatsApp</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Responsável</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {linhas.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={5} className="py-10 text-center text-muted-foreground">Nenhum cliente com esses filtros.</TableCell>
-              </TableRow>
-            )}
-            {linhas.map((cliente) => {
-              const responsavel = Array.isArray(cliente.profiles) ? cliente.profiles[0]?.nome : cliente.profiles?.nome;
-              return (
-                <TableRow key={cliente.id}>
-                  <TableCell>
-                    <Link href={`/clientes/${cliente.id}`} className="font-medium hover:underline">{cliente.nome}</Link>
-                    <p className="text-xs text-muted-foreground">{cliente.tipo}{cliente.cidade_uf ? ` · ${cliente.cidade_uf}` : ""}</p>
-                  </TableCell>
-                  <TableCell>{formatarCpfCnpj(cliente.cpf_cnpj)}</TableCell>
-                  <TableCell>{cliente.whatsapp ? formatarTelefone(cliente.whatsapp) : "—"}</TableCell>
-                  <TableCell><Badge>{rotuloDe(STATUS_FUNIL, cliente.status_funil)}</Badge></TableCell>
-                  <TableCell>{responsavel ?? "—"}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
+      <TabelaOuCards
+        vazio="Nenhum cliente com esses filtros."
+        cabecalhos={["Nome", "Documento", "WhatsApp", "Status", "Responsável"]}
+        linhas={linhas.map((cliente) => {
+          const responsavel = Array.isArray(cliente.profiles) ? cliente.profiles[0]?.nome : cliente.profiles?.nome;
+          return {
+            id: cliente.id,
+            href: `/clientes/${cliente.id}`,
+            valores: [
+              `${cliente.nome}${cliente.cidade_uf ? ` · ${cliente.cidade_uf}` : ""}`,
+              formatarCpfCnpj(cliente.cpf_cnpj),
+              cliente.whatsapp ? formatarTelefone(cliente.whatsapp) : "—",
+              <Badge key="status">{rotuloDe(STATUS_FUNIL, cliente.status_funil)}</Badge>,
+              responsavel ?? "—",
+            ],
+          };
+        })}
+      />
     </div>
   );
 }

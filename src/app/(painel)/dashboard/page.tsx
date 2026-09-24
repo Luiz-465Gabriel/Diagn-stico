@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { formatarMoeda, formatarPercentual, inicioDoMesSaoPaulo } from "@/lib/format";
 import { rotuloDe, STATUS_FUNIL } from "@/lib/rotulos";
 import { exigirSessao } from "@/lib/sessao";
@@ -34,11 +35,21 @@ export default async function Dashboard() {
         <p className="text-sm text-muted-foreground">Olá, {profile.nome.split(" ")[0]}</p>
         <h1 className="text-2xl font-semibold">Painel</h1>
       </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Link href="/clientes" className="rounded-lg border-l-4 border-primary bg-card p-4 shadow-sm">
+          <p className="font-medium">Enviar formulário</p>
+          <p className="mt-1 text-sm text-muted-foreground">Abra o cliente, gere o link e mande no WhatsApp. As respostas voltam sozinhas.</p>
+        </Link>
+        <Link href="/propostas" className="rounded-lg border-l-4 border-[hsl(var(--copper))] bg-card p-4 shadow-sm">
+          <p className="font-medium">Baixar proposta</p>
+          <p className="mt-1 text-sm text-muted-foreground">Abra a proposta e use “Baixar proposta simples” para enviar ao cliente.</p>
+        </Link>
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Cartao titulo="Taxa de resposta" valor={formatarPercentual(taxaResposta, 0)} detalhe={`${respondidos} de ${baseResposta.length} formulários`} />
-        <Cartao titulo="Conversão de propostas" valor={formatarPercentual(taxaConversao, 0)} detalhe={`${aceitas} aceitas de ${consideradas.length}`} />
-        <Cartao titulo="Mensal em aberto" valor={formatarMoeda(abertas)} detalhe="Propostas enviadas e ainda sem resposta" />
-        <Cartao titulo="Mensal aceito no mês" valor={formatarMoeda(aceitasMes)} detalhe="Aceites deste mês" />
+        <Cartao titulo="Taxa de resposta" valor={formatarPercentual(taxaResposta, 0)} detalhe={`${respondidos} de ${baseResposta.length} formulários`} faixa="bg-primary" />
+        <Cartao titulo="Conversão de propostas" valor={formatarPercentual(taxaConversao, 0)} detalhe={`${aceitas} aceitas de ${consideradas.length}`} faixa="bg-[hsl(var(--copper))]" />
+        <Cartao titulo="Mensal em aberto" valor={formatarMoeda(abertas)} detalhe="Propostas enviadas e ainda sem resposta" faixa="bg-sidebar" />
+        <Cartao titulo="Mensal aceito no mês" valor={formatarMoeda(aceitasMes)} detalhe="Aceites deste mês" faixa="bg-emerald-600" />
       </div>
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-lg font-semibold">Funil</h2>
@@ -63,12 +74,15 @@ export default async function Dashboard() {
   );
 }
 
-function Cartao({ titulo, valor, detalhe }: { titulo: string; valor: string; detalhe: string }) {
+function Cartao({ titulo, valor, detalhe, faixa }: { titulo: string; valor: string; detalhe: string; faixa: string }) {
   return (
-    <article className="rounded-xl border bg-card p-4">
-      <p className="text-sm text-muted-foreground">{titulo}</p>
-      <p className="mt-1 text-2xl font-semibold">{valor}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{detalhe}</p>
+    <article className="overflow-hidden rounded-lg border bg-card shadow-sm">
+      <div className={`h-1 ${faixa}`} />
+      <div className="p-4">
+        <p className="text-sm text-muted-foreground">{titulo}</p>
+        <p className="mt-1 text-2xl font-semibold">{valor}</p>
+        <p className="mt-1 text-xs text-muted-foreground">{detalhe}</p>
+      </div>
     </article>
   );
 }
